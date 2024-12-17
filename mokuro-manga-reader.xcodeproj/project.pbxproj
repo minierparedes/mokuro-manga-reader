@@ -56,8 +56,8 @@
 		2D7049EC2D1148D100E513EC = {
 			isa = PBXGroup;
 			children = (
-				2D7049F72D1148D100E513EC /* mokuro-manga-reader */,
 				2D7049F62D1148D100E513EC /* Products */,
+				2D7049F72D1148D100E513EC /* mokuro-manga-reader */,
 			);
 			sourceTree = "<group>";
 		};
