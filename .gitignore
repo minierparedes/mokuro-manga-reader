@@ -1,0 +1,31 @@
+# Ignore specific large files
+mokuro-manga-reader/01幼稚園Wars.mokuro
+mokuro-manga-reader/01幼稚園Wars
+mokuro-manga-reader/Yotsuba-to--01
+mokuro-manga-reader/Yotsuba-to--01.mokuro
+mokuro-manga-reader/ラミアの黒魔術
+mokuro-manga-reader/ラミアの黒魔術-20240726T054529Z-001.mokuro
+mokuro-manga-reader/Assets.xcassets/004-1917×1079.imageset
+mokuro-manga-reader/Assets.xcassets/011-822×1200.imageset
+mokuro-manga-reader/Assets.xcassets/012.imageset
+mokuro-manga-reader/Assets.xcassets/023-1080×1530.imageset
+mokuro-manga-reader/Assets.xcassets/IMG_0524.imageset
+mokuro-manga-reader/Assets.xcassets/IMG_0525-1488×2266.imageset
+mokuro-manga-reader/Assets.xcassets/IMG_0525.imageset
+
+
+
+# Ignore all files in a specific directory
+mokuro-manga-reader/dictionary/dicdir/*.bin
+mokuro-manga-reader/dicdir/*.bin
+
+
+# Ignore all `.zip` files in the project
+*.zip
+mokuro-manga-reader/dicdir
+mokuro-manga-reader/dictionary/dicdir
+Podfile
+Podfile.lock
+mokuro-manga-reader.xcworkspace/contents.xcworkspacedata
+mokuro-manga-reader/Info.plist
+mokuro-manga-reader/dictionary/Node.m
