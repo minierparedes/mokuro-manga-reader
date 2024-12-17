@@ -1,0 +1,33 @@
+{
+  "originHash" : "3044a85a45504bba89a5c8c9faa425c07f14dd85ec3ff2525b219a7be5ba0f8a",
+  "pins" : [
+    {
+      "identity" : "mecab",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/landonepps/mecab.git",
+      "state" : {
+        "revision" : "9d22dbb57e4845c8fcb0abc1ee482afc46ba9da7",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swiftyjson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyJSON/SwiftyJSON.git",
+      "state" : {
+        "revision" : "af76cf3ef710b6ca5f8c05f3a31307d44a3c5828",
+        "version" : "5.0.2"
+      }
+    },
+    {
+      "identity" : "zipfoundation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/weichsel/ZIPFoundation",
+      "state" : {
+        "revision" : "02b6abe5f6eef7e3cbd5f247c5cc24e246efcfe0",
+        "version" : "0.9.19"
+      }
+    }
+  ],
+  "version" : 3
+}

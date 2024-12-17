@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2D704A082D114A6D00E513EC /* mecab in Frameworks */ = {isa = PBXBuildFile; productRef = 2D704A072D114A6D00E513EC /* mecab */; };
+		2D704A0B2D114A7D00E513EC /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 2D704A0A2D114A7D00E513EC /* SwiftyJSON */; };
+		2D704A0E2D114A8C00E513EC /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 2D704A0D2D114A8C00E513EC /* ZIPFoundation */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		2D7049F52D1148D100E513EC /* mokuro-manga-reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mokuro-manga-reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D704A0B2D114A7D00E513EC /* SwiftyJSON in Frameworks */,
+				2D704A082D114A6D00E513EC /* mecab in Frameworks */,
+				2D704A0E2D114A8C00E513EC /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +74,9 @@
 			);
 			name = "mokuro-manga-reader";
 			packageProductDependencies = (
+				2D704A072D114A6D00E513EC /* mecab */,
+				2D704A0A2D114A7D00E513EC /* SwiftyJSON */,
+				2D704A0D2D114A8C00E513EC /* ZIPFoundation */,
 			);
 			productName = "mokuro-manga-reader";
 			productReference = 2D7049F52D1148D100E513EC /* mokuro-manga-reader.app */;
@@ -94,6 +106,11 @@
 			);
 			mainGroup = 2D7049EC2D1148D100E513EC;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				2D704A062D114A6D00E513EC /* XCRemoteSwiftPackageReference "mecab" */,
+				2D704A092D114A7D00E513EC /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				2D704A0C2D114A8C00E513EC /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2D7049F62D1148D100E513EC /* Products */;
 			projectDirPath = "";
@@ -324,6 +341,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2D704A062D114A6D00E513EC /* XCRemoteSwiftPackageReference "mecab" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/landonepps/mecab.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		2D704A092D114A7D00E513EC /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
+		2D704A0C2D114A8C00E513EC /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.19;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2D704A072D114A6D00E513EC /* mecab */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2D704A062D114A6D00E513EC /* XCRemoteSwiftPackageReference "mecab" */;
+			productName = mecab;
+		};
+		2D704A0A2D114A7D00E513EC /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2D704A092D114A7D00E513EC /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		2D704A0D2D114A8C00E513EC /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2D704A0C2D114A8C00E513EC /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2D7049ED2D1148D100E513EC /* Project object */;
 }
