@@ -16,16 +16,16 @@ mokuro-manga-reader/Assets.xcassets/IMG_0525.imageset
 
 
 # Ignore all files in a specific directory
-mokuro-manga-reader/dictionary/dicdir/*.bin
+mokuro-manga-reader/DictionaryCore/dicdir/*.bin
 mokuro-manga-reader/dicdir/*.bin
 
 
 # Ignore all `.zip` files in the project
 *.zip
 mokuro-manga-reader/dicdir
-mokuro-manga-reader/dictionary/dicdir
+mokuro-manga-reader/DictionaryCore/dicdir
 Podfile
 Podfile.lock
 mokuro-manga-reader.xcworkspace/contents.xcworkspacedata
 mokuro-manga-reader/Info.plist
-mokuro-manga-reader/dictionary/Node.m
+mokuro-manga-reader/DictionaryCore/Node.m

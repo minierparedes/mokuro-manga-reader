@@ -14,7 +14,7 @@ import mecab
  `nil` is used instead of "*" (MeCab's convention) to represent a non-existent feature.
  */
 struct Token {
-    let surface: String               // Exact substring (表層形)
+    let surface: String?               // Exact substring (表層形)
     let partOfSpeech: String?         // Primary part of speech (品詞)
     let partsOfSpeech: [String]       // Array of part of speech types (品詞, 品詞細分類1, ...)
     let inflectionType: String?       // Inflection type (活用型)

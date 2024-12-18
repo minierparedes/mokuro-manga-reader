@@ -80,3 +80,39 @@ class JMdictLanguageSource {
     var text: String?
     var wasei: Bool = false
 }
+
+// Extension to make JMdictSense Hashable
+extension JMdictSense: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        // Combine hash values of properties that uniquely identify the sense
+        hasher.combine(partOfSpeech)
+        hasher.combine(gloss.map { $0.text })
+        hasher.combine(appliesToKanji)
+        hasher.combine(appliesToKana)
+    }
+    
+    public static func == (lhs: JMdictSense, rhs: JMdictSense) -> Bool {
+        return lhs.partOfSpeech == rhs.partOfSpeech &&
+               lhs.gloss.map { $0.text } == rhs.gloss.map { $0.text } &&
+               lhs.appliesToKanji == rhs.appliesToKanji &&
+               lhs.appliesToKana == rhs.appliesToKana
+    }
+}
+
+// Extension to make JMdictGloss Hashable
+extension JMdictGloss: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        // Combine hash values of properties that uniquely identify the gloss
+        hasher.combine(text)
+        hasher.combine(lang)
+        hasher.combine(type)
+        hasher.combine(gender)
+    }
+    
+    public static func == (lhs: JMdictGloss, rhs: JMdictGloss) -> Bool {
+        return lhs.text == rhs.text &&
+               lhs.lang == rhs.lang &&
+               lhs.type == rhs.type &&
+               lhs.gender == rhs.gender
+    }
+}

@@ -11,6 +11,7 @@
 		2D704A0B2D114A7D00E513EC /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 2D704A0A2D114A7D00E513EC /* SwiftyJSON */; };
 		2D704A0E2D114A8C00E513EC /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 2D704A0D2D114A8C00E513EC /* ZIPFoundation */; };
 		2D704A0F2D114DE500E513EC /* mecab in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 2D704A072D114A6D00E513EC /* mecab */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		2D704B1A2D11B0EC00E513EC /* dicdir in Resources */ = {isa = PBXBuildFile; fileRef = 2D704B192D11B0EC00E513EC /* dicdir */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		2D7049F52D1148D100E513EC /* mokuro-manga-reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mokuro-manga-reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D704B192D11B0EC00E513EC /* dicdir */ = {isa = PBXFileReference; lastKnownFileType = folder; name = dicdir; path = "mokuro-manga-reader/DictionaryCore/dicdir"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -56,8 +58,9 @@
 		2D7049EC2D1148D100E513EC = {
 			isa = PBXGroup;
 			children = (
-				2D7049F72D1148D100E513EC /* mokuro-manga-reader */,
+				2D704B192D11B0EC00E513EC /* dicdir */,
 				2D7049F62D1148D100E513EC /* Products */,
+				2D7049F72D1148D100E513EC /* mokuro-manga-reader */,
 			);
 			sourceTree = "<group>";
 		};
@@ -142,6 +145,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D704B1A2D11B0EC00E513EC /* dicdir in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
