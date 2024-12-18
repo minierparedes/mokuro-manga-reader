@@ -6,34 +6,74 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
+import SwiftyJSON
 
 struct ContentView: View {
     @State private var tokenizer = Tokenizer()
-    @State private var dictionary: JMdictDictionary = JMdictDictionary() // Populate this with your JMdict data
+    @State private var importedDictionary: JMdictDictionary?
     @State private var matcher: MecabJMdictTokenMatcher?
     @State private var inputText = ""
     @State private var tokens: [(token: Token, matches: [JMdictEntry])] = []
     
+    // Import and Processing States
+    @State private var isImporting = false
+    @State private var errorMessage: String?
+    @State private var isProcessing = false
+    
     var body: some View {
         VStack {
-            // Input area
-            TextField("Text to tokenize...", text: $inputText)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            
-            Button("Tokenize and Match!") {
-                performTokenizeAndMatch()
+            // Dictionary Import Section
+            HStack {
+                Button("Import JMdict ZIP") {
+                    isImporting = true
+                }
+                .buttonStyle(.borderedProminent)
+                
+                if importedDictionary != nil {
+                    Text("✓ Dictionary Loaded")
+                        .foregroundColor(.green)
+                }
             }
-            .buttonStyle(.borderedProminent)
             
-            // Token list
-            tokenListView
+            // Tokenization Section
+            VStack {
+                TextField("Text to tokenize...", text: $inputText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                Button("Tokenize and Match") {
+                    performTokenizeAndMatch()
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(importedDictionary == nil)
+            }
+            .padding()
+            
+            // Processing Indicators
+            if isProcessing {
+                ProgressView("Processing dictionary...")
+            }
+            
+            if let errorMessage = errorMessage {
+                Text("Error: \(errorMessage)")
+                    .foregroundColor(.red)
+            }
+            
+            // Token and Dictionary Match List
+            tokenMatchListView
+        }
+        .fileImporter(
+            isPresented: $isImporting,
+            allowedContentTypes: [.zip],
+            allowsMultipleSelection: false
+        ) { result in
+            handleFileImport(result)
         }
         .padding()
-        .onAppear(perform: initializeMatcher)
     }
     
-    // Separate view for token list to reduce complexity
-    private var tokenListView: some View {
+    // Token Match List View
+    private var tokenMatchListView: some View {
         List {
             ForEach(tokens.indices, id: \.self) { index in
                 tokenMatchView(for: tokens[index])
@@ -42,7 +82,7 @@ struct ContentView: View {
         .listStyle(PlainListStyle())
     }
     
-    // View for individual token match
+    // Individual Token Match View
     private func tokenMatchView(for tokenMatch: (token: Token, matches: [JMdictEntry])) -> some View {
         DisclosureGroup {
             tokenDetailsView(for: tokenMatch)
@@ -53,18 +93,15 @@ struct ContentView: View {
         }
     }
     
-    // Detailed view for token information and matches
+    // Token Details View
     private func tokenDetailsView(for tokenMatch: (token: Token, matches: [JMdictEntry])) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            // Token Information
             tokenInformationView(for: tokenMatch.token)
-            
-            // Dictionary Matches
             dictionaryMatchesView(for: tokenMatch.matches)
         }
     }
     
-    // View for token information
+    // Token Information View
     private func tokenInformationView(for token: Token) -> some View {
         Group {
             if let kana = token.kana {
@@ -94,7 +131,7 @@ struct ContentView: View {
         }
     }
     
-    // View for dictionary matches
+    // Dictionary Matches View
     private func dictionaryMatchesView(for matches: [JMdictEntry]) -> some View {
         Group {
             if !matches.isEmpty {
@@ -113,22 +150,19 @@ struct ContentView: View {
         }
     }
     
-    // View for individual dictionary entry
+    // Dictionary Entry View
     private func dictionaryEntryView(for entry: JMdictEntry) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            // Kanji Representations
             if !entry.kanji.isEmpty {
                 Text("Kanji: " + entry.kanji.map { $0.text }.joined(separator: ", "))
                     .font(.subheadline)
             }
             
-            // Kana Representations
             if !entry.kana.isEmpty {
                 Text("Kana: " + entry.kana.map { $0.text }.joined(separator: ", "))
                     .font(.subheadline)
             }
             
-            // Senses (Meanings)
             ForEach(entry.sense.prefix(3), id: \.self) { sense in
                 senseSummaryView(for: sense)
             }
@@ -138,16 +172,14 @@ struct ContentView: View {
         .cornerRadius(5)
     }
     
-    // View for sense summary
+    // Sense Summary View
     private func senseSummaryView(for sense: JMdictSense) -> some View {
         VStack(alignment: .leading) {
-            // Part of Speech
             if !sense.partOfSpeech.isEmpty {
                 Text("POS: " + sense.partOfSpeech.joined(separator: ", "))
                     .font(.caption)
             }
             
-            // Glosses (Translations)
             ForEach(sense.gloss.prefix(2), id: \.self) { gloss in
                 Text("\(gloss.lang): \(gloss.text)")
                     .font(.caption)
@@ -155,21 +187,64 @@ struct ContentView: View {
         }
     }
     
-    // Initialize matcher
-    private func initializeMatcher() {
-        matcher = MecabJMdictTokenMatcher(dictionary: dictionary)
-    }
-    
-    // Tokenize and match
+    // Tokenize and Match
     private func performTokenizeAndMatch() {
-        // Tokenize input
+        guard let matcher = matcher else { return }
+        
         let parsedTokens = tokenizer.parse(inputText)
         
-        // Match tokens to dictionary
         tokens = parsedTokens.map { token in
-            // Use advanced matching method
-            let matches = matcher?.advancedMatch(token: token) ?? []
+            let matches = matcher.advancedMatch(token: token)
             return (token: token, matches: matches)
+        }
+    }
+    
+    // File Import Handler
+    private func handleFileImport(_ result: Result<[URL], Error>) {
+        do {
+            // Reset previous state
+            errorMessage = nil
+            isProcessing = true
+            
+            // Extract the URL
+            let selectedFile = try result.get().first!
+            
+            // Ensure the file is accessible
+            guard selectedFile.startAccessingSecurityScopedResource() else {
+                throw NSError(domain: "FileAccessError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Cannot access the selected file"])
+            }
+            
+            // Unzip the file
+            guard let unzippedURL = FileHandler.unzipFile(at: selectedFile) else {
+                throw NSError(domain: "UnzipError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to unzip the file"])
+            }
+            
+            // Load JSON data
+            guard let jsonData = FileHandler.loadJSONData(from: unzippedURL) else {
+                throw NSError(domain: "JSONLoadError", code: 2, userInfo: [NSLocalizedDescriptionKey: "Failed to load JSON data"])
+            }
+            
+            // Parse the dictionary
+            guard let parsedDictionary = DictionaryParser.parseJMdictJSON(data: jsonData) else {
+                throw NSError(domain: "ParsingError", code: 3, userInfo: [NSLocalizedDescriptionKey: "Failed to parse dictionary entries"])
+            }
+            
+            // Update entries on main thread
+            DispatchQueue.main.async {
+                self.importedDictionary = parsedDictionary
+                self.matcher = MecabJMdictTokenMatcher(dictionary: parsedDictionary)
+                self.isProcessing = false
+            }
+            
+            // Stop accessing the security-scoped resource
+            selectedFile.stopAccessingSecurityScopedResource()
+            
+        } catch {
+            // Handle any errors
+            DispatchQueue.main.async {
+                self.errorMessage = error.localizedDescription
+                self.isProcessing = false
+            }
         }
     }
 }
